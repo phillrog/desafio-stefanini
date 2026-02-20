@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="DesafioStefanini.API/DesafioStefanini.API.csproj" />
+  <Project Path="DesafioStefanini.Application/DesafioStefanini.Application.csproj" />
+  <Project Path="DesafioStefanini.Domain/DesafioStefanini.Domain.csproj" />
+  <Project Path="DesafioStefanini.Infrastructure/DesafioStefanini.Infrastructure.csproj" />
+  <Project Path="DesafioStefanini.Tests/DesafioStefanini.Tests.csproj" />
+</Solution>
