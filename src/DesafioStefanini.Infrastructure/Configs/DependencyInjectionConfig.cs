@@ -21,6 +21,7 @@ namespace DesafioStefanini.Infrastructure.Configs
 
             // Services
             services.AddScoped<IPedidoService, PedidoService>();
+            services.AddScoped<IProdutoService, ProdutoService>();
 
             return services;
         }

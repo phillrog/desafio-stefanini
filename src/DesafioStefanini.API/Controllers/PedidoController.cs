@@ -58,7 +58,7 @@ public class PedidoController : ControllerBase
         if (!result.IsSuccess)
             return NotFound(result);
 
-        return Ok(result.Data);
+        return Ok(result);
     }
     #endregion
 
@@ -85,7 +85,7 @@ public class PedidoController : ControllerBase
         if (!result.IsSuccess)
             return BadRequest(result);
 
-        return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result.Data);
+        return CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result);
     }
     #endregion
 
@@ -116,7 +116,7 @@ public class PedidoController : ControllerBase
         if (!result.IsSuccess)
             return BadRequest(result);
 
-        return Ok(result.Data);
+        return Ok(result);
     }
     #endregion
 

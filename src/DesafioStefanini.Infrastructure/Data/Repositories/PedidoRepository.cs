@@ -15,6 +15,7 @@ namespace DesafioStefanini.Infrastructure.Data.Repositories
                 .Include(p => p.ItensPedido)
                 .ThenInclude(i => i.Produto)
                 .AsNoTracking()
+                .OrderByDescending(d => d.DataCriacao)
                 .ToListAsync();
         }
         public async Task<Pedido?> GetPedidoCompletoAsync(int id)
