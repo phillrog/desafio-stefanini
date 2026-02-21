@@ -45,8 +45,16 @@ jobs:
       - name: Build Project
         run: npm run build -- --configuration production --base-href /desafio-stefanini/
 
+      - name: Debug Output Directory
+        
+        run: |
+          echo "Listando o conteúdo da pasta dist:"
+          ls -R dist/
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+
           folder: src/DesafioStefanini.Web/dist/desafio-stefanini-web/browser
           branch: gh-pages
+          clean: true
