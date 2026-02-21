@@ -42,10 +42,10 @@ var app = builder.Build();
 // Seeds
 await app.UseDbInitializationAsync();
 
-app.UseCors("Cors");
 
 app.UseCustomizedSwagger();
 app.UseRouting();
+app.UseCors("Cors");
 app.MapControllers();
 
 app.Run();
