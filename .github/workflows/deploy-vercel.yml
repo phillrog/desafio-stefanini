@@ -7,13 +7,10 @@ on:
     paths:
       - 'src/DesafioStefanini.Web/**'
 
-  workflow_dispatch: 
-
 jobs:
   deploy:
-    environment: production
     runs-on: ubuntu-latest
-    
+    environment: production
     defaults:
       run:
         working-directory: ./src/DesafioStefanini.Web
@@ -29,6 +26,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './src/DesafioStefanini.Web/package-lock.json'
 
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
       - name: Create Environment File
         run: |
           mkdir -p src/environments
@@ -39,6 +39,12 @@ jobs:
           };
           EOF
 
-      - name: Deploy to Vercel
+      - name: Build Project
+        
+        run: npx ng build --configuration production --base-href /desafio-stefanini/
 
-        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --yes --prod
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: src/DesafioStefanini.Web/dist/DesafioStefanini.Web/browser 
+          branch: gh-pages 
