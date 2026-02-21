@@ -1,3 +1,6 @@
+# [![CI/CD Desafio Stefanini - Backend](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy.yml/badge.svg)](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy.yml) - [![CI/CD Desafio Stefanini - Web](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy-vercel.yml/badge.svg)](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy-vercel.yml)
+
+
 # Desafio Stefanini
 
 <img width="1408" height="736" alt="Gemini_Generated_Image_asikmwasikmwasik" src="https://github.com/user-attachments/assets/f1c8ea7f-5ce7-4048-8dab-2786c8e6146d" />
@@ -103,13 +106,11 @@ Utilizamos **Angular Signals** (`signal`, `computed`, `toSignal`) para substitui
 
 # Resultado
 
-<img width="1912" height="966" alt="image" src="https://github.com/user-attachments/assets/b00ed71a-b7ca-4075-9aad-036b61111ded" />
+<img width="1907" height="968" alt="image" src="https://github.com/user-attachments/assets/92706683-7204-418a-910e-cf2820b6b68c" />
 
-<img width="1917" height="968" alt="image" src="https://github.com/user-attachments/assets/69d697dc-30f6-4a29-b700-b5e9e20e3153" />
+<img width="1913" height="968" alt="image" src="https://github.com/user-attachments/assets/486e6538-3fb2-4c22-af64-5fe9b5a2bf6f" />
 
-<img width="1917" height="965" alt="image" src="https://github.com/user-attachments/assets/73adae56-4be4-4e6e-b675-e60a1f62e9ea" />
+<img width="1917" height="958" alt="image" src="https://github.com/user-attachments/assets/65ad50e3-077d-4261-a23d-2c1919213633" />
 
-<img width="1915" height="965" alt="image" src="https://github.com/user-attachments/assets/34a4e82d-efd5-4e81-8765-5cce256a6725" />
-
-
+<img width="1915" height="971" alt="image" src="https://github.com/user-attachments/assets/0f7c8f3b-9d06-4218-85d0-50c5d24564cb" />
 
