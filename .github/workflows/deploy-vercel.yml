@@ -7,7 +7,7 @@ on:
     paths:
       - 'src/DesafioStefanini.Web/**'
 
-  workflow_dispatch: # Gatilho manual mantido
+  workflow_dispatch: 
 
 jobs:
   deploy:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # MUDANÇA CRÍTICA: O Node 20 resolve o erro ERR_REQUIRE_ESM
+          node-version: 20 
           cache: 'npm'
           cache-dependency-path: './src/DesafioStefanini.Web/package-lock.json'
 
@@ -43,12 +43,10 @@ jobs:
           EOF
 
       - name: Build Project
-        # Rodando direto o comando para evitar problemas de escopo do npx
         run: npm run build -- --configuration production --base-href /desafio-stefanini/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          # Ajustado para o nome do projeto que apareceu no seu log
           folder: src/DesafioStefanini.Web/dist/desafio-stefanini-web/browser
           branch: gh-pages
