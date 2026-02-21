@@ -8,6 +8,8 @@ on:
       - 'src/DesafioStefanini.Web/**'
 
   workflow_dispatch: 
+permissions:
+  contents: write
 
 jobs:
   deploy:
