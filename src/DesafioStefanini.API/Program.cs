@@ -14,10 +14,10 @@ builder.Services.AddApplication();
 builder.Services.AddCors(options => {
     // Permite tudo
     options.AddPolicy("Cors", policy => {
-        policy.AllowAnyOrigin()
+        policy.SetIsOriginAllowed(origin => true)              
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
+              .AllowCredentials();
     });
 });
 
@@ -37,12 +37,12 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     // Garante que o JSON de saída use camelCase (padrão de mercado)
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
-
+builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 // Seeds
 await app.UseDbInitializationAsync();
-
+app.UseCors("Cors");
 // Proxies
 var forwardOptions = new ForwardedHeadersOptions
 {
@@ -51,7 +51,6 @@ var forwardOptions = new ForwardedHeadersOptions
 forwardOptions.KnownNetworks.Clear();
 forwardOptions.KnownProxies.Clear();
 app.UseForwardedHeaders(forwardOptions);
-
 
 app.UseCustomizedSwagger();
 app.UseRouting();
