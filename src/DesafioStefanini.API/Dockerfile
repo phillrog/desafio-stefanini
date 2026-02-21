@@ -11,10 +11,10 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # 1. Copia os projetos (Caminhos relativos à RAIZ do repositório)
-COPY ["src/DesafioStefanini.API/DesafioStefanini.API.csproj", "DesafioStefanini.API/"]
-COPY ["src/DesafioStefanini.Application/DesafioStefanini.Application.csproj", "DesafioStefanini.Application/"]
-COPY ["src/DesafioStefanini.Domain/DesafioStefanini.Domain.csproj", "DesafioStefanini.Domain/"]
-COPY ["src/DesafioStefanini.Infrastructure/DesafioStefanini.Infrastructure.csproj", "DesafioStefanini.Infrastructure/"]
+COPY ["DesafioStefanini.API/DesafioStefanini.API.csproj", "DesafioStefanini.API/"]
+COPY ["DesafioStefanini.Application/DesafioStefanini.Application.csproj", "DesafioStefanini.Application/"]
+COPY ["DesafioStefanini.Domain/DesafioStefanini.Domain.csproj", "DesafioStefanini.Domain/"]
+COPY ["DesafioStefanini.Infrastructure/DesafioStefanini.Infrastructure.csproj", "DesafioStefanini.Infrastructure/"]
 
 # 2. Restaura
 RUN dotnet restore "DesafioStefanini.API/DesafioStefanini.API.csproj"
@@ -23,7 +23,7 @@ RUN dotnet restore "DesafioStefanini.API/DesafioStefanini.API.csproj"
 COPY . .
 
 # 4. Compila
-WORKDIR "/src/src/DesafioStefanini.API"
+WORKDIR "/src/DesafioStefanini.API"
 RUN dotnet build "DesafioStefanini.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Estágio de Publicação
