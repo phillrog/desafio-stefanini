@@ -1,0 +1,35 @@
+name: CI/CD Desafio Stefanini - Web
+
+on:
+  push:
+    branches:
+      - main  # Ou a sua branch principal
+    paths:
+      - 'src/DesafioStefanini.Web/**' # Só dispara se houver mudança nesta pasta
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/node-up@v4
+        with:
+          node-version: 20 # Recomendado para Angular 18+ / v21
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/DesafioStefanini.Web
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/DesafioStefanini.Web
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./src/DesafioStefanini.Web
