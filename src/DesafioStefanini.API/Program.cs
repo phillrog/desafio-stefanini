@@ -52,12 +52,10 @@ forwardOptions.KnownNetworks.Clear();
 forwardOptions.KnownProxies.Clear();
 app.UseForwardedHeaders(forwardOptions);
 
-app.UseCors("Cors");
 
-app.UseForwardedHeaders(forwardOptions);
 app.UseCustomizedSwagger();
 app.UseRouting();
-
+app.UseCors("Cors");
 app.MapControllers();
 
 app.Run();
