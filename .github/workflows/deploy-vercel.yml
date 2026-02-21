@@ -7,6 +7,8 @@ on:
     paths:
       - 'src/DesafioStefanini.Web/**'
 
+  workflow_dispatch: #"Run workflow" manual
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
