@@ -3,35 +3,55 @@ name: CI/CD Desafio Stefanini - Web
 on:
   push:
     branches:
-      - main  # Ou a sua branch principal
+      - main
     paths:
       - 'src/DesafioStefanini.Web/**' # Só dispara se houver mudança nesta pasta
 
-  workflow_dispatch: #"Run workflow" manual      
+  workflow_dispatch: # Permite rodar manualmente pelo painel do GitHub
 
 jobs:
   deploy:
+    environment: production
     runs-on: ubuntu-latest
+    
+    # Define o diretório padrão para todos os passos de 'run'
+    defaults:
+      run:
+        working-directory: ./src/DesafioStefanini.Web
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/node-up@v4
+        uses: actions/setup-node@v4
         with:
-          node-version: 20 # Recomendado para Angular 18+ / v21
+          node-version: 21
+          cache: 'npm'
+          cache-dependency-path: './src/DesafioStefanini.Web/package-lock.json'
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
+      - name: Create Environment File
+        run: |
+          mkdir -p src/environments
+          cat <<EOF > src/environments/environment.prod.ts
+          export const environment = {
+            production: true,
+            apiUrl: '${{ secrets.API_URL }}'
+          };
+          EOF
+        # O arquivo será criado em: ./src/DesafioStefanini.Web/src/environments/environment.prod.ts
+
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./src/DesafioStefanini.Web
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./src/DesafioStefanini.Web
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./src/DesafioStefanini.Web
