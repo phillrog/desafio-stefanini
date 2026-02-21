@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DesafioStefanini.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [Produces("application/json")]
 public class PedidoController : ControllerBase
 {
