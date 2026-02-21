@@ -23,6 +23,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 
+// Cors
+builder.Services.AddCors(options => {
+    // Permite tudo
+    options.AddPolicy("Cors", policy => {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Swagger
 builder.Services.AddSwaggerGen();
 builder.Services.AddCustomizedSwagger(builder.Configuration, typeof(Program));
@@ -32,6 +42,7 @@ var app = builder.Build();
 // Seeds
 await app.UseDbInitializationAsync();
 
+app.UseCors("Cors");
 
 app.UseCustomizedSwagger();
 app.UseRouting();

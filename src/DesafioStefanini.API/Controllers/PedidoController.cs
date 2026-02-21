@@ -36,7 +36,7 @@ public class PedidoController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var result = await _pedidoService.GetAllAsync();
-        return Ok(result.Data);
+        return Ok(result);
     }
 
     /// <summary>
