@@ -5,7 +5,6 @@ using DesafioStefanini.Domain.Common.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
 
 namespace DesafioStefanini.Tests.API.Controllers;
 
@@ -37,7 +36,7 @@ public class PedidoControllerTests
 
         // Assert
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        okResult.Value.Should().BeEquivalentTo(pedidos);
+        okResult.Value.Should().BeEquivalentTo(Result<IEnumerable<PedidoResponse>>.Success(pedidos));
     }
 
     [Fact]
@@ -66,17 +65,20 @@ public class PedidoControllerTests
     {
         // Arrange
         var request = new CreatePedidoRequest("Phill", "phill@test.com", new List<CreateItemPedidoRequest>());
-        var response = new PedidoResponse(1, "Phill", "phill@test.com", false, 0, new List<ItemPedidoResponse>());
 
-        _serviceMock.Setup(s => s.CreateAsync(request)).ReturnsAsync(Result<PedidoResponse>.Success(response));
+        var expectedResponse = new PedidoResponse(1, "Phill", "phill@test.com", false, 0, new List<ItemPedidoResponse>());
+
+        _serviceMock.Setup(s => s.CreateAsync(It.IsAny<CreatePedidoRequest>()))
+                    .ReturnsAsync(Result<PedidoResponse>.Success(expectedResponse));
 
         // Act
-        var result = await _controller.Create(request);
+        var actionResult = await _controller.Create(request);
 
         // Assert
-        var createdResult = result.Should().BeOfType<CreatedAtActionResult>().Subject;
+
+        var createdResult = actionResult.Should().BeOfType<CreatedAtActionResult>().Subject;
         createdResult.RouteValues?["id"].Should().Be(1);
-        createdResult.Value.Should().Be(response);
+        createdResult.Value.Should().BeEquivalentTo(Result<PedidoResponse>.Success(expectedResponse));        
     }
 
     #endregion
