@@ -7,12 +7,13 @@ on:
     paths:
       - 'src/DesafioStefanini.Web/**'
 
-  workflow_dispatch: #"Run workflow" manual
+  workflow_dispatch: # Gatilho manual mantido
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
+    
     defaults:
       run:
         working-directory: ./src/DesafioStefanini.Web
@@ -42,11 +43,12 @@ jobs:
           EOF
 
       - name: Build Project
-        
-        run: npx ng build --configuration production --base-href /desafio-stefanini/
+        # Usamos 'npm run build --' 
+        run: npm run build -- --configuration production --base-href /desafio-stefanini/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: src/DesafioStefanini.Web/dist/DesafioStefanini.Web/browser 
-          branch: gh-pages 
+          # O caminho 'dist/DesafioStefanini.Web/browser'
+          folder: src/DesafioStefanini.Web/dist/desafio-stefanini-web/browser
+          branch: gh-pages
