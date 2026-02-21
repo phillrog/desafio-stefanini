@@ -1,0 +1,68 @@
+<div class="p-4 mr-2 ml-2">
+    <div class="grid mb-4">
+        <div class="col-12 md:col-4">
+            <div class="card p-4 shadow-2 border-round bg-blue-500 text-white h-full flex flex-column justify-content-between">
+                <div class="flex justify-content-between align-items-start">
+                    <div>
+                        <span class="block font-semibold mb-3 text-blue-100 uppercase text-sm tracking-wider">Total Vendido (Pago)</span>
+                        <div class="text-3xl font-bold">{{ kpis().totalVendido | currency:'BRL' }}</div>
+                    </div>
+                    <i class="pi pi-dollar text-5xl opacity-80"></i>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 md:col-4">
+            <div class="card p-4 shadow-2 border-round bg-green-500 text-white h-full flex flex-column justify-content-between">
+                <div class="flex justify-content-between align-items-start">
+                    <div>
+                        <span class="block font-semibold mb-3 text-green-100 uppercase text-sm tracking-wider">Pedidos Pagos</span>
+                        <div class="text-5xl font-bold">{{ kpis().pagos }}</div>
+                    </div>
+                    <i class="pi pi-check-circle text-5xl opacity-80"></i>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 md:col-4">
+            <div class="card p-4 shadow-2 border-round bg-orange-500 text-white h-full flex flex-column justify-content-between">
+                <div class="flex justify-content-between align-items-start">
+                    <div>
+                        <span class="block font-semibold mb-3 text-orange-100 uppercase text-sm tracking-wider">Pedidos Pendentes</span>
+                        <div class="text-5xl font-bold">{{ kpis().pendentes }}</div>
+                    </div>
+                    <i class="pi pi-clock text-5xl opacity-80"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 lg:col-6">
+            <p-card header="Produtos Mais Vendidos" styleClass="shadow-2">
+                <p-chart type="bar" [data]="chartData()" [options]="{ responsive: true }"></p-chart>
+            </p-card>
+        </div>
+
+        <div class="col-12 lg:col-6">
+            <p-card header="Resumo Financeiro por Cliente" styleClass="shadow-2">
+                <p-table [value]="clientesResumo()" [rows]="5" [paginator]="true" styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Cliente</th>
+                            <th class="text-right">Pago</th>
+                            <th class="text-right">Pendente</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cli>
+                        <tr>
+                            <td class="font-bold">{{ cli.nome }}</td>
+                            <td class="text-right text-green-600 font-medium">{{ cli.pago | currency:'BRL' }}</td>
+                            <td class="text-right text-red-500 font-medium">{{ cli.pendente | currency:'BRL' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+        </div>
+    </div>
+</div>

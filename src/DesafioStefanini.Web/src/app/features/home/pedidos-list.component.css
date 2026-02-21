@@ -1,0 +1,17 @@
+:host ::ng-deep .p-table .p-table-tbody > tr > td {
+    padding: 1rem;
+}
+
+.fixed {
+    position: fixed;
+}
+
+:host ::ng-deep .p-datatable-footer {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.font-monospace {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: -1px;
+}

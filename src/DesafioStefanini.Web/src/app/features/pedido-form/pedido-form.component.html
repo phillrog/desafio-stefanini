@@ -1,0 +1,120 @@
+<div class="card border-none shadow-3 m-2 md:m-5 border-round-xl overflow-hidden bg-white dark:bg-surface-900">
+    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-4 bg-gray-50 dark:bg-surface-800 gap-3 border-bottom-1 border-300 dark:border-surface-700">
+        <div class="flex align-items-center gap-3">
+            <div class="w-3rem h-3rem bg-primary-500 border-round-lg flex align-items-center justify-content-center shadow-2">
+                <i class="text-white text-xl pi" [ngClass]="isEditando() ? 'pi-pencil' : 'pi-plus'"></i>
+            </div>
+            <div>
+                <h2 class="m-0 text-900 font-bold line-height-2">{{ isEditando() ? 'Editar Pedido' : 'Novo Pedido' }}</h2>
+                <small class="text-600">Gestão de vendas e processamento de itens</small>
+            </div>
+        </div>
+        <p-button label="Voltar" icon="pi pi-arrow-left" severity="secondary" [text]="true" (onClick)="voltar()"></p-button>
+    </div>
+    <p-confirmDialog />
+    <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()" class="p-4 md:p-6">
+        <div class="grid p-fluid">
+    
+            <div class="col-12 mb-3">
+                <span class="text-900 font-bold text-lg flex align-items-center gap-2">
+                    <i class="pi pi-id-card text-primary-500"></i> Informações do Cliente
+                </span>
+            </div>
+        
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label for="nome" class="font-medium text-700">Nome</label>
+                    <p-iconfield iconPosition="left">
+                        <p-inputicon class="pi pi-user"></p-inputicon>
+                        <input id="nome" type="text" pInputText formControlName="nomeCliente" placeholder="Ex: João Silva" class="w-full border-round-lg" />
+                    </p-iconfield>
+                    <small class="p-error block mt-1" *ngIf="isFieldInvalid('nomeCliente')">O nome é obrigatório.</small>
+                </div>
+            </div>
+        
+            <div class="col-12 md:col-6">
+                <div class="field">
+                    <label for="email" class="font-medium text-700">E-mail</label>
+                    <p-iconfield iconPosition="left">
+                        <p-inputicon class="pi pi-envelope"></p-inputicon>
+                        <input id="email" type="email" pInputText formControlName="emailCliente" placeholder="phill@email.com" class="w-full border-round-lg" />
+                    </p-iconfield>
+                    <small class="p-error block mt-1" *ngIf="isFieldInvalid('emailCliente')">Insira um e-mail válido.</small>
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="mt-5">
+            <div class="flex justify-content-between align-items-center mb-3">
+                <span class="text-900 font-bold text-lg flex align-items-center gap-2">
+                    <i class="pi pi-box text-primary-500"></i> Itens do Pedido
+                </span>
+                <p-button label="Adicionar Item" icon="pi pi-plus" [text]="true" size="small" (onClick)="adicionarItem()" styleClass="border-round-pill"></p-button>
+            </div>
+            
+            <div formArrayName="itens" class="flex flex-column gap-3">
+                <div *ngFor="let item of itens.controls; let i = index" [formGroupName]="i" 
+                     class="p-3 border-round-xl border-1 surface-border hover:border-primary-300 transition-all shadow-1 bg-white dark:bg-surface-800">
+                    
+                    <div class="grid p-fluid align-items-center">
+                        <div class="col-12 md:col-1 text-center hidden md:block">
+                            <span class="text-500 font-bold">#{{i + 1}}</span>
+                        </div>
+                        
+                        <div class="field col-12 md:col-6 m-0">
+                            <label class="md:hidden font-bold">Produto</label>
+                            <p-select 
+                                [options]="produtos()" 
+                                formControlName="idProduto" 
+                                optionLabel="nomeProduto" 
+                                optionValue="id" 
+                                placeholder="Selecione o produto" 
+                                [filter]="true" 
+                                filterBy="nomeProduto" 
+                                appendTo="body"
+                                styleClass="border-none bg-gray-50 dark:bg-surface-700">
+                            </p-select>
+                        </div>
+
+                        <div class="field col-12 md:col-3 m-0">
+                            <label class="md:hidden font-bold">Quantidade</label>
+                            <p-inputNumber formControlName="quantidade" [min]="1" [showButtons]="true" 
+                                          buttonLayout="horizontal" inputId="horizontal"
+                                          incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                                          inputStyleClass="text-center"></p-inputNumber>
+                        </div>
+
+                        <div class="col-12 md:col-2 flex justify-content-end">
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true" 
+                                      (onClick)="removerItem(i)" pTooltip="Remover"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="itens.length === 0" class="text-center p-5 border-2 border-dashed border-300 border-round-xl mt-3">
+                <i class="pi pi-shopping-cart text-3xl text-300 mb-3"></i>
+                <p class="text-600 m-0">Nenhum item adicionado ainda.</p>
+                <p-button label="Adicionar primeiro item" [text]="true" (onClick)="adicionarItem()"></p-button>
+            </div>
+        </div>
+
+        <div class="flex flex-column md:flex-row justify-content-between align-items-center mt-6 pt-4 border-top-1 border-200">
+            <div class="mb-4 md:mb-0">
+                <p-tag [severity]="pedidoForm.invalid ? 'danger' : 'success'" 
+                       [value]="pedidoForm.invalid ? 'Formulário Incompleto' : 'Pronto para Salvar'" [rounded]="true"></p-tag>
+            </div>
+            
+            <div class="flex gap-3 w-full md:w-30rem">
+                <p-button label="Cancelar" severity="secondary" [outlined]="true" 
+                          (onClick)="voltar()" class="flex-1" styleClass="w-full p-button-lg"></p-button>
+                
+                <p-button [label]="isEditando() ? 'Atualizar' : 'Salvar Pedido'" 
+                          [icon]="loading() ? 'pi pi-spin pi-spinner' : 'pi pi-check'" 
+                          type="submit" [disabled]="pedidoForm.invalid || loading()" 
+                          class="flex-1" styleClass="w-full p-button-lg shadow-2"></p-button>
+            </div>
+        </div>
+    </form>
+</div>

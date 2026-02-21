@@ -1,0 +1,92 @@
+<div class="layout-wrapper min-h-screen bg-gray-50 dark:bg-surface-950">
+    <p-toast></p-toast>
+    
+    @if (loadingService.isLoading()) {
+        <div class="fixed top-0 left-0 w-full z-5">
+            <p-progressBar mode="indeterminate" [style]="{'height': '3px', 'border-radius': '0'}"></p-progressBar>
+        </div>
+    }
+
+    <p-toolbar styleClass="px-4 py-2 shadow-2 border-none bg-white dark:bg-surface-900 sticky top-0 z-4">
+        <ng-template pTemplate="start">
+            <p-button 
+                icon="pi pi-bars" 
+                [text]="true"
+                severity="secondary"
+                (onClick)="sidebarVisible = true" 
+                styleClass="mr-3">
+            </p-button>
+            <div class="flex align-items-center gap-3">
+                <img src="https://attachments.gupy.io/production/companies/39703/career/84556/images/2024-10-08_17-35_companyLogoUrl.png" height="32" alt="Logo" class="hidden sm:block">
+                <div class="h-2rem w-1px bg-gray-300 hidden md:block"></div>
+                <span class="font-bold text-lg text-900 tracking-tight hidden md:block uppercase">Desafio Stefanini</span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="end">
+            <p-avatar icon="pi pi-user" shape="circle" styleClass="bg-primary-100 text-primary-700"></p-avatar>
+        </ng-template>
+    </p-toolbar>
+
+    <p-drawer [(visible)]="sidebarVisible" styleClass="w-20rem border-none shadow-5">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                <i class="pi pi-th-large text-primary text-2xl"></i>
+                <span class="font-bold text-xl text-900">Navegação</span>
+            </div>
+        </ng-template>
+
+        <div class="flex flex-column h-full">
+            <div class="flex flex-column gap-1 mt-3 px-2">
+                <a routerLink="/pedidos" 
+                   routerLinkActive="active-link"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                   (click)="sidebarVisible = false" 
+                   class="nav-item">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span>Listagem de Pedidos</span>
+                </a>
+
+                <a routerLink="/pedidos/novo" 
+                   routerLinkActive="active-link"
+                   (click)="sidebarVisible = false" 
+                   class="nav-item">
+                    <i class="pi pi-plus-circle"></i>
+                    <span>Criar Novo Pedido</span>
+                </a>
+
+                <div class="my-3 border-top-1 border-100"></div>
+                <small class="px-3 text-500 uppercase font-bold text-xs mb-2">Relatórios</small>
+                
+                <a class="nav-item" routerLink="/dashboard" routerLinkActive="active-link" (click)="sidebarVisible = false">
+                    <i class="pi pi-chart-bar"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <div class="mt-auto p-3 border-top-1 border-100">
+                <div class="flex align-items-center gap-3 p-2 border-round-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <p-avatar shape="circle"></p-avatar>
+                    <div class="flex flex-column">
+                        <span class="font-bold text-sm text-900">Admin Stefanini</span>
+                        <small class="text-600">admin@stefanini.com</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-drawer>
+
+    <main class="p-3 md:p-5">
+        <div class="container mx-auto max-w-7xl">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+
+    <footer class="mt-auto py-4 px-3 border-top-1 border-100 bg-white dark:bg-surface-900">
+        <div class="container mx-auto max-w-7xl flex justify-content-center align-items-center">
+            <span class="text-500 font-medium tracking-widest text-sm uppercase">
+                P H I L L I P E @ 2 0 2 6
+            </span>
+        </div>
+    </footer>
+</div>

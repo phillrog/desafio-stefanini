@@ -1,0 +1,51 @@
+/* Global Styles */
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+/* PrimeNG v18+ still needs a few basics for non-styled components if any */
+/* The theme is now injected via JS (AppModule), so we don't import theme.css here */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family, "Inter", sans-serif);
+  height: 100%;
+  background-color: var(--p-surface-50); /* Using PrimeNG v18 variable */
+  color: var(--p-surface-900);
+}
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Custom Card (Complementing PrimeNG) */
+.card {
+    background: var(--p-content-background);
+    padding: 2rem;
+    box-shadow: var(--p-card-shadow);
+    border-radius: var(--p-border-radius-md);
+    margin-bottom: 2rem;
+    border: 1px solid var(--p-content-border-color);
+}
+
+.p-error {
+    color: var(--p-red-500);
+}
+
+
+body.p-overflow-hidden {
+  overflow: auto !important;
+}
+
+.p-overlay-mask-leave-active, 
+.p-drawer-mask-leave-active {
+    pointer-events: none !important;
+    display: none !important;
+}
+
+.p-overflow-hidden {
+    overflow: visible !important;
+}

@@ -1,0 +1,160 @@
+<div class="card border-none shadow-3 m-2 md:m-5 border-round-xl overflow-hidden bg-white dark:bg-surface-900">
+    
+    <div class="flex flex-column lg:flex-row lg:justify-content-between lg:align-items-center px-0 p-4 bg-white dark:bg-surface-900 gap-4 border-bottom-1 border-100 dark:border-surface-700">
+        
+        <div class="flex align-items-center gap-4">
+            <div class="relative">
+                <div class="w-3rem h-3rem bg-primary-500 border-round-xl flex align-items-center justify-content-center shadow-2">
+                    <i class="pi pi-shopping-bag text-white text-xl"></i>
+                </div>
+                <span class="absolute top-0 right-0 block w-1rem h-1rem border-2 border-white bg-green-500 border-round-circle -mr-1 -mt-1"></span>
+            </div>
+            
+            <div class="flex flex-column">
+                <div class="flex align-items-center gap-2">
+                    <h2 class="m-0 text-900 font-extrabold text-2xl tracking-tight">Gestão de Pedidos</h2>
+                    <i class="pi pi-circle-fill text-green-500" style="font-size: 8px"></i><p-tag [value]="pedidosFiltrados().length + ' exibidos'" severity="secondary" [rounded]="true"></p-tag>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="flex flex-column sm:flex-row gap-3 w-full lg:w-auto">
+            <p-iconfield iconPosition="left" class="w-full">
+                <p-inputicon class="pi pi-search text-primary-500"></p-inputicon>
+                <input type="text" 
+                       pInputText 
+                       [formControl]="searchControl" 
+                       placeholder="Pesquisar cliente, status ou valor..." 
+                       class="w-full lg:w-20rem border-round-xl shadow-sm bg-gray-50 focus:bg-white transition-all" />
+            </p-iconfield>
+            <p-button icon="pi pi-refresh" [text]="true" severity="secondary" (onClick)="carregarPedidos()" pTooltip="Sincronizar API"></p-button>
+        </div>
+    </div>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    @if (loading()) {
+        <div class="p-4">
+            <p-table [value]="skeletons" class="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 25%">Cliente</th>
+                        <th style="width: 20%">E-mail</th>
+                        <th style="width: 15%">Itens</th>
+                        <th style="width: 15%">Status</th>
+                        <th style="width: 15%">Total</th>
+                        <th style="width: 10%">Ações</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body">
+                    <tr>
+                        <td><p-skeleton></p-skeleton></td>
+                        <td><p-skeleton></p-skeleton></td>
+                        <td><p-skeleton></p-skeleton></td>
+                        <td><p-skeleton></p-skeleton></td>
+                        <td><p-skeleton></p-skeleton></td>
+                        <td><p-skeleton></p-skeleton></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    } @else {
+        <p-table 
+            [value]="pedidosFiltrados()" 
+            [paginator]="true" 
+            [rows]="8" 
+            responsiveLayout="stack" 
+            breakpoint="960px"
+            styleClass="p-datatable-sm p-datatable-hoverable"
+            [rowHover]="true"
+        >
+            <ng-template pTemplate="header">
+                <tr class="text-sm uppercase text-500">
+                    <th pSortableColumn="nomeCliente" class="bg-transparent">Cliente <p-sortIcon field="nomeCliente"></p-sortIcon></th>
+                    <th class="bg-transparent">E-mail</th>
+                    <th class="text-center bg-transparent">Itens</th>
+                    <th class="text-center bg-transparent">Status</th>
+                    <th pSortableColumn="valorTotal" class="text-right bg-transparent">Total <p-sortIcon field="valorTotal"></p-sortIcon></th>
+                    <th class="text-center bg-transparent">Ações</th>
+                </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="body" let-pedido>
+                <tr class="text-900 border-bottom-1 border-100">
+                    <td>
+                        <div class="flex align-items-center gap-2">
+                            <div class="w-2rem h-2rem border-round-circle bg-primary-100 text-primary-700 flex align-items-center justify-content-center font-bold text-xs">
+                                {{ pedido.nomeCliente.substring(0, 2).toUpperCase() }}
+                            </div>
+                            <span class="font-medium">{{pedido.nomeCliente}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="text-600 text-sm">
+                            <i class="pi pi-envelope mr-1 text-xs text-primary-300"></i>{{pedido.emailCliente}}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <div class="inline-flex align-items-center gap-1 px-2 py-1 bg-gray-100 border-round-md text-700 font-medium">
+                            <i class="pi pi-box text-xs"></i>
+                            {{ pedido.itensPedido?.length || 0 }}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <p-tag [value]="pedido.pago ? 'PAGO' : 'PENDENTE'" 
+                               [severity]="pedido.pago ? 'success' : 'warn'"
+                               [rounded]="true"
+                               [style]="{'font-size': '10px', 'padding': '0.2rem 0.6rem'}">
+                        </p-tag>
+                    </td>
+                    <td class="text-right">
+                        <span class="font-bold text-lg text-primary-700 font-monospace">
+                            {{pedido.valorTotal | currency:'BRL'}}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <div class="flex justify-content-center gap-1">
+                            <p-button icon="pi pi-pencil" severity="secondary" [rounded]="true" [text]="true" (onClick)="editarPedido(pedido.id)" pTooltip="Editar"></p-button>
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true" (onClick)="deletarPedido(pedido)" pTooltip="Excluir"></p-button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="4" class="text-right bg-gray-50 dark:bg-surface-800 p-0">
+                        
+                    </td>
+                    <td class="text-right bg-gray-50 dark:bg-surface-800 p-3 px-1">
+                        <span class="text-xl font-bold text-primary-700">
+                            {{ totalGeral() | currency:'BRL' }}
+                        </span>
+                    </td>
+                    <td class="bg-gray-50 dark:bg-surface-800"></td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6" class="text-center p-8">
+                        <i class="pi pi-search-plus text-4xl text-200 mb-3"></i>
+                        <p class="text-600 font-medium">Não encontramos pedidos para "{{ searchControl.value }}".</p>
+                        <p-button label="Limpar Busca" [text]="true" size="small" (onClick)="searchControl.setValue('')"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+
+    <div class="fixed bottom-0 right-0 m-4 z-5">
+        <p-button icon="pi pi-plus" 
+                  [rounded]="true" 
+                  (onClick)="novoPedido()" 
+                  pTooltip="Criar Novo Pedido" 
+                  tooltipPosition="left"
+                  styleClass="shadow-6 h-4rem w-4rem transition-transform hover:scale-110 active:scale-95 bg-primary-600 border-none">
+        </p-button>
+    </div>
+</div>
