@@ -28,7 +28,13 @@ API robusta construída seguindo rigorosamente os princípios de Clean Architect
 
 -   **Dados:** **DbInitializer** para Seed automático de produtos e pedidos.
 
-Obs: Utiliza banco (localdb)\\mssqllocaldb e com o migration não precisa configurar nada apenas executar a API.
+Observação: 
+```
+#E possível executar localhost no VS com o banco (localdb)\\mssqllocaldb ou com container docker
+#Containers (API e WEB) serão criados. E o migration irá configurar a base automaticamente.
+
+docker-compose up --build 
+```
 
 * * * * *
 

@@ -3,6 +3,7 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 5001
 
 # Estágio de Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -35,7 +36,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://+:5001
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 ENTRYPOINT ["dotnet", "DesafioStefanini.API.dll"]

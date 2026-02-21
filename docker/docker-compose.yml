@@ -1,0 +1,15 @@
+﻿services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
+  desafiostefanini.api:
+    image: ${DOCKER_REGISTRY-}desafiostefaniniapi
+    build:
+      context: .
+      dockerfile: DesafioStefanini.API/Dockerfile
+
+  desafiostefanini.web:
+    image: ${DOCKER_REGISTRY-}desafiostefaniniweb
+    build:
+      context: .
+      dockerfile: DesafioStefanini.Web/Dockerfile

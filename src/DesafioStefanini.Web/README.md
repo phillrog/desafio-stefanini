@@ -1,3 +1,6 @@
+# [![CI/CD Desafio Stefanini - Backend](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy.yml/badge.svg)](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy.yml) - [![CI/CD Desafio Stefanini - Web](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy-vercel.yml/badge.svg)](https://github.com/phillrog/desafio-stefanini/actions/workflows/deploy-vercel.yml) - 
+[![Github Pages Deployment](https://github.com/phillrog/desafio-stefanini/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/phillrog/desafio-stefanini/actions/workflows/pages/pages-build-deployment)
+
 # DesafioStefaniniWeb
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.

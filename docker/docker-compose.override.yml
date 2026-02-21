@@ -1,0 +1,47 @@
+﻿services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SA_PASSWORD=yourStrong(!)Password
+      - ACCEPT_EULA=Y
+    
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PyourStrong(!)Password", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
+    
+    ports:
+      - "1433:1433" 
+
+  desafiostefanini.api:
+    image: desafiostefanini-api
+    container_name: api
+    build:
+      context: ..
+      dockerfile: src/DesafioStefanini.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=DesafioStefanini;User Id=sa;Password=yourStrong(!)Password;TrustServerCertificate=True;
+    ports:
+      - "5001:5001"
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  desafiostefanini.web:
+    image: desafiostefanini-web
+    container_name: web
+    build:
+      context: ..
+      dockerfile: src/DesafioStefanini.Web/Dockerfile
+    environment:
+      - API_URL=http://localhost:5001/api/v1
+    ports:
+      - "8080:80"
+    depends_on:
+      - desafiostefanini.api
+    restart: always
+
+
