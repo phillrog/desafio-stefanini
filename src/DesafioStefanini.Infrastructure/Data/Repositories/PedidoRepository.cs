@@ -1,5 +1,5 @@
 ﻿using DesafioStefanini.Domain.Entities;
-using DesafioStefanini.Domain.Interfaces;
+using DesafioStefanini.Domain.Interfaces.Repositories;
 using DesafioStefanini.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +9,14 @@ namespace DesafioStefanini.Infrastructure.Data.Repositories
     {
         public PedidoRepository(ApplicationDbContext context) : base(context) { }
 
+        public async Task<IEnumerable<Pedido>> GetAllAsync()
+        {
+            return await _context.Pedidos
+                .Include(p => p.ItensPedido)
+                .ThenInclude(i => i.Produto)
+                .AsNoTracking()
+                .ToListAsync();
+        }
         public async Task<Pedido?> GetPedidoCompletoAsync(int id)
         {
             return await _context.Pedidos

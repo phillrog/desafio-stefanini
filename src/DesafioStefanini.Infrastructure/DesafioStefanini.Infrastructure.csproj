@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\DesafioStefanini.Application\DesafioStefanini.Application.csproj" />
     <ProjectReference Include="..\DesafioStefanini.Domain\DesafioStefanini.Domain.csproj" />
   </ItemGroup>
 

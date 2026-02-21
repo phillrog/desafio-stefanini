@@ -1,4 +1,4 @@
-﻿using DesafioStefanini.Domain.Interfaces;
+﻿using DesafioStefanini.Domain.Interfaces.Repositories;
 using DesafioStefanini.Infrastructure.Data.Contexts;
 using DesafioStefanini.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;

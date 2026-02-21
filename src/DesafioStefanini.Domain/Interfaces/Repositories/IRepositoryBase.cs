@@ -1,4 +1,4 @@
-﻿namespace DesafioStefanini.Domain.Interfaces
+﻿namespace DesafioStefanini.Domain.Interfaces.Repositories
 {
     public interface IRepositoryBase<T> where T : class
     {

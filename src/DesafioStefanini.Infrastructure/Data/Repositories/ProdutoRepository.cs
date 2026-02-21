@@ -1,5 +1,5 @@
 ﻿using DesafioStefanini.Domain.Entities;
-using DesafioStefanini.Domain.Interfaces;
+using DesafioStefanini.Domain.Interfaces.Repositories;
 using DesafioStefanini.Infrastructure.Data.Contexts;
 
 namespace DesafioStefanini.Infrastructure.Data.Repositories

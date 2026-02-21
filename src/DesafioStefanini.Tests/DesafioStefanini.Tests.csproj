@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DesafioStefanini.API\DesafioStefanini.API.csproj" />
     <ProjectReference Include="..\DesafioStefanini.Domain\DesafioStefanini.Domain.csproj" />
     <ProjectReference Include="..\DesafioStefanini.Application\DesafioStefanini.Application.csproj" />
     <ProjectReference Include="..\DesafioStefanini.Infrastructure\DesafioStefanini.Infrastructure.csproj" />

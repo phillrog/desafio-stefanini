@@ -1,4 +1,6 @@
-﻿namespace DesafioStefanini.Domain.Entities
+﻿using DesafioStefanini.Domain.Common.Models;
+
+namespace DesafioStefanini.Domain.Entities
 {
     public class Pedido : EntityBase
     {
@@ -22,14 +24,48 @@
             Pago = pago;
         }
 
-        public void AdicionarItem(Produto produto, int quantidade)
+        public Result AdicionarItem(Produto produto, int quantidade)
         {
-            _itensPedido.Add(new ItemPedido(produto, quantidade));
+            // O AdicionarItem utiliza a Factory do ItemPedido para validar
+            var resultItem = ItemPedido.Criar(produto, quantidade);
+
+            if (!resultItem.IsSuccess)
+                return Result.Failure(resultItem.Errors);
+
+            _itensPedido.Add(resultItem.Data!);
+            return Result.Success();
         }
 
-        public void MarcarComoPago()
+        public Result MarcarComoPago()
         {
             Pago = true;
+            return Result.Success();
+        }
+
+        public Result AtualizarDados(string nomeCliente, string emailCliente, bool pago)
+        {
+            if (Pago && !pago)
+                return Result.Failure("Não é possível reverter um pedido pago para não pago.");
+
+            if (Pago)
+                return Result.Failure("Este pedido já foi finalizado/pago e não permite alterações.");
+
+            NomeCliente = nomeCliente;
+            EmailCliente = emailCliente;
+            Pago = pago;
+
+            return Result.Success();
+        }
+
+        public Result AtualizarItens(List<ItemPedido> novosItens)
+        {
+            if (Pago)
+                return Result.Failure("Não é possível alterar itens de um pedido que já foi pago.");
+
+            _itensPedido.Clear();
+            _itensPedido.AddRange(novosItens);
+
+            return Result.Success();
         }
     }
 }

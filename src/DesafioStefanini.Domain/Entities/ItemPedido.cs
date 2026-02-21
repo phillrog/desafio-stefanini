@@ -1,4 +1,6 @@
-﻿namespace DesafioStefanini.Domain.Entities
+﻿using DesafioStefanini.Domain.Common.Models;
+
+namespace DesafioStefanini.Domain.Entities
 {
     public class ItemPedido : EntityBase
     {
@@ -22,5 +24,16 @@
         }
 
         public decimal CalcularValorItem() => ValorUnitario * Quantidade;
+
+        public static Result<ItemPedido> Criar(Produto produto, int quantidade)
+        {
+            if (produto == null)
+                return Result<ItemPedido>.Failure("O produto é obrigatório.");
+
+            if (quantidade <= 0)
+                return Result<ItemPedido>.Failure("A quantidade deve ser maior que zero.");
+
+            return Result<ItemPedido>.Success(new ItemPedido(produto, quantidade));
+        }
     }
 }
