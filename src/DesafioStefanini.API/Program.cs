@@ -1,5 +1,6 @@
 ﻿using DesafioStefanini.Infrastructure.Configs;
 using DesafioStefanini.Infrastructure.Seed;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -42,7 +43,15 @@ var app = builder.Build();
 // Seeds
 await app.UseDbInitializationAsync();
 
+// Proxies
+var forwardOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+forwardOptions.KnownNetworks.Clear();
+forwardOptions.KnownProxies.Clear();
 
+app.UseForwardedHeaders(forwardOptions);
 app.UseCustomizedSwagger();
 app.UseRouting();
 app.UseCors("Cors");
