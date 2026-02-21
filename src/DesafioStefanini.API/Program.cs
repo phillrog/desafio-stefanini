@@ -30,7 +30,8 @@ builder.Services.AddCors(options => {
     options.AddPolicy("Cors", policy => {
         policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
     });
 });
 
@@ -50,11 +51,14 @@ var forwardOptions = new ForwardedHeadersOptions
 };
 forwardOptions.KnownNetworks.Clear();
 forwardOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardOptions);
+
+app.UseCors("Cors");
 
 app.UseForwardedHeaders(forwardOptions);
 app.UseCustomizedSwagger();
 app.UseRouting();
-app.UseCors("Cors");
+
 app.MapControllers();
 
 app.Run();
